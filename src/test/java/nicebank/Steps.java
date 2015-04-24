@@ -1,8 +1,10 @@
 package nicebank;
 
 import cucumber.api.PendingException;
+import cucumber.api.Transform;
 import cucumber.api.java.en.*;
 import junit.framework.Assert;
+import transforms.MoneyConverter;
 
 /**
  * Created by liudi on 4/23/15.
@@ -10,27 +12,53 @@ import junit.framework.Assert;
 public class Steps {
 
     class Account {
-        public void deposit(int amount) {
+        private Money balance = new Money();
+
+        public void deposit(Money amount) {
+            balance = balance.add(amount);
         }
 
-        public int getBalance() {
-            return 0;
+        public Money getBalance() {
+            return balance;
         }
     }
 
-    @Given("^I have deposited \\$(\\d+) in my account$")
-    public void iHaveDeposited$InMyAccount(int amount) throws Throwable {
-        Account myAccount = new Account();
-        myAccount.deposit(amount);
+    class Teller {
+        public void withdrawFrom(Account account, int dollars) {
+
+        }
+    }
+
+    class KnowsMyAccount {
+        private Account myAccount;
+
+        public Account getMyAccount() {
+            if (myAccount == null) {
+                myAccount = new Account();
+            }
+
+            return myAccount;
+        }
+    }
+
+    KnowsMyAccount helper;
+
+    public Steps() {
+        helper = new KnowsMyAccount();
+    }
+
+    @Given("^I have deposited (\\$\\d+\\.\\d+) in my account$")
+    public void iHaveDeposited$InMyAccount(@Transform(MoneyConverter.class) Money amount) throws Throwable {
+        helper.getMyAccount().deposit(amount);
 
         Assert.assertEquals("Incorrect account balance -",
-                amount, myAccount.getBalance());
+                amount, helper.getMyAccount().getBalance());
     }
 
-    @When("^I request \\$(\\d+)$")
-    public void iRequest$(int arg1) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    @When("^I withdraw \\$(\\d+)$")
+    public void iWithdraw$(int dollars) throws Throwable {
+        Teller teller = new Teller();
+        teller.withdrawFrom(helper.getMyAccount(), dollars);
     }
 
     @Then("^\\$(\\d+) should be dispensed$")
