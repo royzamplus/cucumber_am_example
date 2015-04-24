@@ -1,6 +1,5 @@
 package nicebank;
 
-import cucumber.api.PendingException;
 import cucumber.api.Transform;
 import cucumber.api.java.en.*;
 import junit.framework.Assert;
@@ -24,13 +23,33 @@ public class Steps {
     }
 
     class Teller {
-        public void withdrawFrom(Account account, int dollars) {
+        private CashSlot cashSlot;
 
+        public Teller(CashSlot cashSlot) {
+            this.cashSlot = cashSlot;
+        }
+
+        public void withdrawFrom(Account account, int dollars) {
+            cashSlot.dispense(dollars);
         }
     }
 
-    class KnowsMyAccount {
+    class CashSlot {
+        private int contents;
+
+        public int getContents() {
+            return contents;
+        }
+
+        public void dispense(int dollars) {
+            contents = dollars;
+        }
+    }
+
+    class KnowsTheDomain {
         private Account myAccount;
+        private Teller teller;
+        private CashSlot cashSlot;
 
         public Account getMyAccount() {
             if (myAccount == null) {
@@ -39,12 +58,28 @@ public class Steps {
 
             return myAccount;
         }
+
+        public Teller getTeller() {
+            if (teller == null) {
+                teller = new Teller(getCashSlot());
+            }
+
+            return teller;
+        }
+
+        public CashSlot getCashSlot() {
+            if (cashSlot == null) {
+                cashSlot = new CashSlot();
+            }
+
+            return cashSlot;
+        }
     }
 
-    KnowsMyAccount helper;
+    KnowsTheDomain helper;
 
     public Steps() {
-        helper = new KnowsMyAccount();
+        helper = new KnowsTheDomain();
     }
 
     @Given("^I have deposited (\\$\\d+\\.\\d+) in my account$")
@@ -57,13 +92,12 @@ public class Steps {
 
     @When("^I withdraw \\$(\\d+)$")
     public void iWithdraw$(int dollars) throws Throwable {
-        Teller teller = new Teller();
-        teller.withdrawFrom(helper.getMyAccount(), dollars);
+        helper.getTeller().withdrawFrom(helper.getMyAccount(), dollars);
     }
 
     @Then("^\\$(\\d+) should be dispensed$")
-    public void $ShouldBeDispensed(int arg1) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    public void $ShouldBeDispensed(int dollars) throws Throwable {
+        Assert.assertEquals("Incorrect amount dispensed -",
+                dollars, helper.getCashSlot().getContents());
     }
 }
