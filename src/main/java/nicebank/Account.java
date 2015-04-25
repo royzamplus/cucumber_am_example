@@ -4,17 +4,18 @@ package nicebank;
  * Created by liudi on 4/25/15.
  */
 public class Account {
-    private Money balance = new Money();
+    private TransactionQueue queue = new TransactionQueue();
 
     public void credit(Money amount) {
-        balance = balance.add(amount);
-    }
-
-    public Money getBalance() {
-        return balance;
+        queue.write("+" + amount.toString());
     }
 
     public void debit(int dollars) {
-        balance = balance.minus(new Money(dollars, 0));
+        Money amount = new Money(dollars, 0);
+        queue.write("-" + amount.toString());
+    }
+
+    public Money getBalance() {
+        return BalanceStore.getBalance();
     }
 }
