@@ -7,6 +7,6 @@ import org.junit.runner.RunWith;
  * Created by liudi on 4/23/15.
  */
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = "pretty", snippets = SnippetType.CAMELCASE, dryRun = false)
+@CucumberOptions(plugin = {"pretty", "html:out"}, snippets = SnippetType.CAMELCASE, dryRun = false)
 public class RunCukesTest {
 }
