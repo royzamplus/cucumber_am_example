@@ -18,12 +18,25 @@ public class AccountSteps {
     }
 
     @Given("^my account has been credited with (\\$\\d+\\.\\d+)$")
-    public void myAccountHasBeenCreditedWith$(@Transform(MoneyConverter.class) Money amount) throws Throwable {
+    public void myAccountHasBeenCreditedWith$(
+            @Transform(MoneyConverter.class) Money amount) throws Throwable {
         helper.getMyAccount().credit(amount);
     }
 
     @Then("^the balance of my account should be (\\$\\d+\\.\\d+)$")
-    public void theBalanceOfMyAccountShouldBe$(@Transform(MoneyConverter.class) Money amount) throws Throwable {
+    public void theBalanceOfMyAccountShouldBe$(
+            @Transform(MoneyConverter.class) Money amount) throws Throwable {
+
+        int timeoutMilliSecs = 3000;
+        int pollIntervalMilliSecs = 100;
+
+        // smart sleep
+        while (!helper.getMyAccount().getBalance().equals(amount)
+                && timeoutMilliSecs > 0) {
+            Thread.sleep(pollIntervalMilliSecs);
+            timeoutMilliSecs -= pollIntervalMilliSecs;
+        }
+
         Assert.assertEquals("Incorrect account balance -",
                 amount, helper.getMyAccount().getBalance());
     }
