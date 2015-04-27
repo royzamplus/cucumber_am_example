@@ -13,7 +13,7 @@ public class AtmUserInterface implements Teller {
 
     private final EventFiringWebDriver webDriver;
 
-    public AtmUserInterface(EventFiringWebDriver webDriver) {
+    public AtmUserInterface(MyWebDriver webDriver) {
         this.webDriver = webDriver;
     }
 
