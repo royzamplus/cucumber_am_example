@@ -3,6 +3,7 @@ package nicebank;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.javalite.activejdbc.Base;
 
 /**
  * Created by liudi on 4/25/15.
@@ -32,6 +33,11 @@ public class AtmServer {
     }
 
     public static void main(String[] args) throws Exception {
+        Base.open(
+                "com.mysql.jdbc.Driver",
+                "jdbc:mysql://localhost/bank",
+                "teller", "password"
+        );
         new AtmServer(9988, new CashSlot(), new Account()).start();
     }
 }
