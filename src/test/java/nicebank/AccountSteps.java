@@ -5,7 +5,6 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import junit.framework.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import support.TestAccount;
 import transforms.MoneyConverter;
 
 /**
@@ -13,7 +12,9 @@ import transforms.MoneyConverter;
  */
 public class AccountSteps {
     @Autowired
-    TestAccount account;
+    Account account;
+
+    private Money originalBalance;
 
     @Given("^my account has been credited with (\\$\\d+\\.\\d+)$")
     public void myAccountHasBeenCreditedWith$(
@@ -21,10 +22,25 @@ public class AccountSteps {
         account.credit(amount);
     }
 
+    @Given("^my account is in credit$")
+    public void myAccountIsInCredit$() throws Throwable {
+        originalBalance = new Money(30, 00);
+        account.credit(originalBalance);
+    }
+
+    @Then("^the balance of my account should be unchanged$")
+    public void theBalanceOfMyAccountShouldBeUnchanged() throws Throwable{
+        checkBalanceIs(originalBalance);
+    }
+
     @Then("^the balance of my account should be (\\$\\d+\\.\\d+)$")
     public void theBalanceOfMyAccountShouldBe$(
             @Transform(MoneyConverter.class) Money amount) throws Throwable {
 
+        checkBalanceIs(amount);
+    }
+
+    private void checkBalanceIs(Money amount) throws InterruptedException {
         int timeoutMilliSecs = 3000;
         int pollIntervalMilliSecs = 100;
 

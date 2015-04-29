@@ -4,24 +4,19 @@ import hooks.ServerHooks;
 import nicebank.Account;
 import nicebank.Teller;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by liudi on 4/25/15.
  */
-@Component
-@Scope("cucumber-glue")
 public class AtmUserInterface implements Teller {
 
-    private final EventFiringWebDriver webDriver;
-
     @Autowired
-    public AtmUserInterface(MyWebDriver webDriver) {
-        this.webDriver = webDriver;
-    }
+    private EventFiringWebDriver webDriver;
 
     public void withdrawFrom(Account account, int dollars) {
         try {
@@ -33,5 +28,11 @@ public class AtmUserInterface implements Teller {
         finally {
             webDriver.close();
         }
+    }
+
+    public boolean isDisplaying(String message) {
+        List<WebElement> list = webDriver.findElements(
+                By.xpath("//*[contains(text(), '" + message + "')]"));
+        return (list.size() > 0);
     }
 }

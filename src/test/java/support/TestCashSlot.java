@@ -1,14 +1,22 @@
 package support;
 
 import nicebank.CashSlot;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by liudi on 4/29/15.
  */
-@Component
-@Scope("cucumber-glue")
 public class TestCashSlot extends CashSlot {
+    private boolean faulty;
 
+    public void injectFault() {
+        faulty = true;
+    }
+
+    public void dispense(int dollars) {
+        if (faulty) {
+            throw new RuntimeException("Out of order");
+        } else {
+            super.dispense(dollars);
+        }
+    }
 }
