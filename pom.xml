@@ -17,6 +17,7 @@
         <jetty.version>9.2.0.M0</jetty.version>
         <servlet.version>3.0.0.v201112011016</servlet.version>
         <selenium.version>2.41.0</selenium.version>
+        <spring.version>4.0.2.RELEASE</spring.version>
     </properties>
 
     <dependencies>
@@ -34,14 +35,19 @@
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
-            <artifactId>cucumber-picocontainer</artifactId>
+            <artifactId>cucumber-spring</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.picocontainer</groupId>
-            <artifactId>picocontainer</artifactId>
-            <version>${picocontainer.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

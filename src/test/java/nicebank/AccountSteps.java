@@ -4,6 +4,7 @@ import cucumber.api.Transform;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import junit.framework.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
 import support.TestAccount;
 import transforms.MoneyConverter;
 
@@ -11,11 +12,8 @@ import transforms.MoneyConverter;
  * Created by liudi on 4/25/15.
  */
 public class AccountSteps {
+    @Autowired
     TestAccount account;
-
-    public AccountSteps(TestAccount account) {
-        this.account = account;
-    }
 
     @Given("^my account has been credited with (\\$\\d+\\.\\d+)$")
     public void myAccountHasBeenCreditedWith$(

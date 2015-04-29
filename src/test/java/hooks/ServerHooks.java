@@ -5,6 +5,7 @@ import cucumber.api.java.Before;
 
 import nicebank.AtmServer;
 import nicebank.CashSlot;
+import org.springframework.beans.factory.annotation.Autowired;
 import support.TestAccount;
 
 /**
@@ -14,13 +15,12 @@ public class ServerHooks {
     public static final int PORT = 8887;
 
     private AtmServer server;
-    private TestAccount account;
-    private CashSlot cashSlot;
 
-    public ServerHooks(TestAccount account, CashSlot cashSlot) {
-        this.account = account;
-        this.cashSlot = cashSlot;
-    }
+    @Autowired
+    private TestAccount account;
+
+    @Autowired
+    private CashSlot cashSlot;
 
     @Before
     public void startServer() throws Exception {

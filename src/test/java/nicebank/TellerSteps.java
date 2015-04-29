@@ -1,6 +1,7 @@
 package nicebank;
 
 import cucumber.api.java.en.When;
+import org.springframework.beans.factory.annotation.Autowired;
 import support.AtmUserInterface;
 import support.TestAccount;
 
@@ -8,13 +9,11 @@ import support.TestAccount;
  * Created by liudi on 4/25/15.
  */
 public class TellerSteps {
-    TestAccount account;
-    Teller teller;
+    @Autowired
+    private TestAccount account;
 
-    public TellerSteps(AtmUserInterface teller, TestAccount account) {
-        this.teller = teller;
-        this.account = account;
-    }
+    @Autowired
+    private Teller teller;
 
     @When("^I withdraw \\$(\\d+)$")
     public void iWithdraw$(int dollars) throws Throwable {

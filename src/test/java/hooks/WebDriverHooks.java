@@ -5,6 +5,7 @@ import cucumber.api.java.After;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import support.MyWebDriver;
 
 /**
@@ -12,11 +13,8 @@ import support.MyWebDriver;
  */
 public class WebDriverHooks {
 
-    private final EventFiringWebDriver webDriver;
-
-    public WebDriverHooks(MyWebDriver webDriver) {
-        this.webDriver = webDriver;
-    }
+    @Autowired
+    private EventFiringWebDriver webDriver;
 
     @After
     public void finish(Scenario scenario) {
