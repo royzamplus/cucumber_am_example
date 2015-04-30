@@ -1,6 +1,10 @@
 package nicebank;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.javalite.activejdbc.Base;
@@ -14,12 +18,22 @@ public class AtmServer {
     public AtmServer(int port, CashSlot cashSlot, Account account) {
         server = new Server(port);
 
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.setContextPath("/");
-        server.setHandler(context);
+        ContextHandler resourceContext = new ContextHandler();
+        resourceContext.setContextPath("/js");
+        ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setResourceBase("src/main/webapp/js");
+        resourceContext.setHandler(resourceHandler);
 
-        context.addServlet(new ServletHolder(new WithdrawalServlet(cashSlot, account)), "/withdraw");
-        context.addServlet(new ServletHolder(new AtmServlet()), "/");
+        ServletContextHandler servletContext = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        servletContext.setContextPath("/");
+
+        servletContext.addServlet(new ServletHolder(new WithdrawalServlet(cashSlot, account)), "/withdraw");
+        servletContext.addServlet(new ServletHolder(new ValidationServlet(cashSlot)), "/validate");
+        servletContext.addServlet(new ServletHolder(new AtmServlet()), "/");
+
+        ContextHandlerCollection contexts = new ContextHandlerCollection();
+        contexts.setHandlers(new Handler[] { resourceContext, servletContext });
+        server.setHandler(contexts);
     }
 
     public void start() throws Exception {
@@ -38,6 +52,8 @@ public class AtmServer {
                 "jdbc:mysql://localhost/bank",
                 "teller", "password"
         );
-        new AtmServer(9988, new CashSlot(), new Account()).start();
+        CashSlot cashSlot = new CashSlot();
+        cashSlot.load(1000);
+        new AtmServer(9988, cashSlot, new Account(6789)).start();
     }
 }

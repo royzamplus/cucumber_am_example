@@ -30,6 +30,13 @@ public class AtmUserInterface implements Teller {
         }
     }
 
+    public void type(int amount) {
+        webDriver.get("http://localhost:" + ServerHooks.PORT);
+        WebElement input = webDriver.findElement(By.id("amount"));
+        String amountString = String.valueOf(amount);
+        input.sendKeys(amountString);
+    }
+
     public boolean isDisplaying(String message) {
         List<WebElement> list = webDriver.findElements(
                 By.xpath("//*[contains(text(), '" + message + "')]"));

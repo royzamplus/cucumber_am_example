@@ -15,11 +15,15 @@ public class AtmServlet extends HttpServlet {
         resp.setContentType("text/html");
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.getWriter().println(
-                "<html><head><title>ATM</title></head>" +
-                        "<body><form action=\"/withdraw\" method=\"post\">" +
-                        "<label for=\"amount\">Amount</label>" +
-                        "<input type=\"text\" id=\"amount\" name=\"amount\">" +
-                        "<button type=\"submit\" id=\"withdraw\">Withdraw</button>" +
-                        "</form></body></html>");
+                "<html><head><title>ATM</title>" +
+                "<script src=\"js/jquery.1.9.1.min.js\"></script>" +
+                "<script src=\"js/notifications.js\"></script>" +
+                "</head><body>" +
+                "<form id=\"withdrawalForm\" action=\"/withdraw\" method=\"post\">" +
+                "<label for=\"amount\">Amount</label>" +
+                "<input type=\"text\" id=\"amount\" name=\"amount\" autocomplete=\"off\">" +
+                "<button type=\"submit\" id=\"withdraw\">Withdraw</button>" +
+                "<ol class=\"notifications\">" +
+                "</ol></form></body></html>");
     }
 }

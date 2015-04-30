@@ -16,10 +16,9 @@
     <bean class="support.AccountFactory"
           factory-method="createTestAccount" lazy-init="true" scope="cucumber-glue" />
 
-    <bean class="org.openqa.selenium.support.events.EventFiringWebDriver"
-          scope="cucumber-glue" destroy-method="close">
+    <bean class="org.openqa.selenium.support.events.EventFiringWebDriver" destroy-method="quit">
         <constructor-arg>
-            <bean class="org.openqa.selenium.firefox.FirefoxDriver" scope="cucumber-glue" />
+            <bean class="org.openqa.selenium.firefox.FirefoxDriver" />
         </constructor-arg>
     </bean>
 </beans>

@@ -28,9 +28,20 @@ public class TellerSteps {
         teller.withdrawFrom(account, dollarsRequested);
     }
 
+    @When("^I type \\$(\\d+)$")
+    public void iType$(int amount) throws Throwable {
+        teller.type(amount);
+    }
+
     @Then("^I should see an out-of-order message$")
     public void iShouldSeeAnOutOfOrderMessage() throws Throwable {
         Assert.assertTrue("Expected error message not displayed",
                 teller.isDisplaying("Out of order"));
+    }
+
+    @Then("^I should see an ask-for-less-money message$")
+    public void iShouldSeeAnAskForLessMoneyMessage() throws Throwable {
+        Assert.assertTrue("Expected error message not displayed",
+                teller.isDisplaying("Insufficient ATM funds"));
     }
 }
