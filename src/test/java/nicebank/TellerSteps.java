@@ -5,6 +5,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import junit.framework.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
+import support.AtmInterface;
 import support.AtmUserInterface;
 
 /**
@@ -15,7 +16,7 @@ public class TellerSteps {
     private Account account;
 
     @Autowired
-    private AtmUserInterface teller;
+    private AtmInterface teller;
 
     @When("^I withdraw \\$(\\d+)$")
     public void iWithdraw$(int dollars) throws Throwable {

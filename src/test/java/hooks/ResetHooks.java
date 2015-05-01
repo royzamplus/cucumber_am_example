@@ -4,6 +4,7 @@ import cucumber.api.java.Before;
 import nicebank.Account;
 import nicebank.TransactionQueue;
 import org.javalite.activejdbc.Base;
+import support.AtmInterfaceFactory;
 
 /**
  * Created by liudi on 4/25/15.
@@ -22,5 +23,7 @@ public class ResetHooks {
         Account.deleteAll();
 
         TransactionQueue.clear();
+
+        AtmInterfaceFactory.reset();
     }
 }

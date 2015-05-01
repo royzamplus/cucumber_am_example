@@ -22,11 +22,10 @@ public class WithdrawalServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Teller teller = new AutomatedTeller(cashSlot);
         int amount = Integer.parseInt(req.getParameter("amount"));
 
         try {
-            teller.withdrawFrom(account, amount);
+            AutomatedTeller.withdrawFrom(cashSlot, account, amount);
 
             resp.setContentType("text/html");
             resp.setStatus(HttpServletResponse.SC_OK);

@@ -7,6 +7,7 @@ import nicebank.Account;
 import nicebank.AtmServer;
 import nicebank.CashSlot;
 import org.springframework.beans.factory.annotation.Autowired;
+import support.AtmInterfaceFactory;
 
 /**
  * Created by liudi on 4/25/15.

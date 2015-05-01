@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by liudi on 4/25/15.
  */
-public class AtmUserInterface implements Teller {
+public class AtmUserInterface implements AtmInterface {
 
     @Autowired
     private EventFiringWebDriver webDriver;

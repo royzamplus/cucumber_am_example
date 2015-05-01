@@ -10,7 +10,9 @@
 
     <context:component-scan base-package="hooks, nicebank, support" />
 
-    <bean class="support.AtmUserInterface" scope="cucumber-glue" />
+    <bean class="support.AtmInterfaceFactory"
+          factory-method="createAtmInterface" lazy-init="true" scope="cucumber-glue" />
+
     <bean class="support.TestCashSlot" scope="cucumber-glue" />
 
     <bean class="support.AccountFactory"
