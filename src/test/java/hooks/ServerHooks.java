@@ -24,8 +24,7 @@ public class ServerHooks {
 
     @Before
     public void startServer() throws Exception {
-        server = new AtmServer(
-                PORT, cashSlot, account);
+        server = new AtmServer(PORT, cashSlot, account);
         server.start();
     }
 

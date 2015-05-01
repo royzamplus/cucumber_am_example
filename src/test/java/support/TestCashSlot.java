@@ -16,7 +16,7 @@ public class TestCashSlot extends CashSlot {
         faulty = true;
     }
 
-    public void dispense(int dollars) {
+    public void dispense(int dollars){
         if (faulty) {
             throw new RuntimeException("Out of order");
         } else {

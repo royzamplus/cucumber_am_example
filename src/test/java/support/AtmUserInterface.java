@@ -23,15 +23,10 @@ public class AtmUserInterface implements Teller {
     private EventFiringWebDriver webDriver;
 
     public void withdrawFrom(Account account, int dollars) {
-        try {
-            webDriver.get("http://localhost:" + ServerHooks.PORT);
-            webDriver.findElement(By.id("amount"))
-                    .sendKeys(String.valueOf(dollars));
-            webDriver.findElement(By.id("withdraw")).click();
-        }
-        finally {
-            webDriver.close();
-        }
+        webDriver.get("http://localhost:" + ServerHooks.PORT);
+        webDriver.findElement(By.id("amount"))
+                .sendKeys(String.valueOf(dollars));
+        webDriver.findElement(By.id("withdraw")).click();
     }
 
     public void type(int amount) {
@@ -42,7 +37,7 @@ public class AtmUserInterface implements Teller {
             input.sendKeys(convertToKey(amountString.charAt(i)));
         }
 
-        ask("Ready to continue");
+        // ask("Ready to continue");
     }
 
     public void ask(String question) {
@@ -54,7 +49,7 @@ public class AtmUserInterface implements Teller {
     }
 
     public boolean isDisplaying(String message) {
-        By locator = By.xpath("//*[contains(text(), '" + message + "')]");
+        By locator = By.xpath("//*[contains(text(),'" + message + "')]");
 
         WebDriverWait wait = new WebDriverWait(webDriver, 2, 30);
         WebElement element = wait.until(

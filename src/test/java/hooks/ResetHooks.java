@@ -12,7 +12,6 @@ public class ResetHooks {
 
     @Before(order = 1)
     public void reset() {
-
         if (!Base.hasConnection()) {
             Base.open(
                     "com.mysql.jdbc.Driver",
@@ -21,6 +20,7 @@ public class ResetHooks {
         }
 
         Account.deleteAll();
+
         TransactionQueue.clear();
     }
 }
